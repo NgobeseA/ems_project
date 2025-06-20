@@ -2,5 +2,7 @@
 {% block content %}
 <section id="hero" class="container mt-5">
     <h1>Welcome to Event Management System</h1>
+    <a href="{% url 'login' %}" class="btn">Login</a>
+    <a href="{% url 'register' %}" class="btn">Create Account</a>
 </section>
 {% endblock content %}
