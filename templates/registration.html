@@ -1,6 +1,30 @@
 {% extends "base.html" %} {% block title %}Create Account{% endblock title %}
 {% block content %}
-<section id="login">
-    <h2>Create Account</h2>
+<section id="register" class="contianer">
+    <div class="form-container d-flex justify-content-center align-items-center flex-column">
+        <h2>Create Account</h2>
+        <form action="register" method="post" class="pt-4">
+            {% csrf_token %}
+            <div >
+                <label for="">{{form.username.label}}</label>
+                <p>{{form.username}}</p>
+            </div>
+            <div >
+                <label for="">{{form.password1.label}}</label>
+                <p>{{form.password1}}</p>
+            </div>
+            <div >
+                <label for="">{{form.password2.label}}</label>
+                <p>{{form.password2}}</p>
+            </div>
+            <div class="pt-2">
+                <button type="submit" class="btn btn-success">Create Account</button>
+            </div>
+        </form>
+        <hr>
+        <div>
+            <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        </div>
+    </div>
 </section>
 {% endblock content %}
