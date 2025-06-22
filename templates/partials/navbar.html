@@ -1,3 +1,24 @@
-<ul>
-    <li>nav</li>
-</ul>
+<nav class="navbar navbar-expand-lg px-4 py-3" id="navbar">
+  <div class="container-fluid shadow py-2">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="logo.png" alt="Logo" width="30" height="24" />
+    </a>
+    <div class="d-flex justify-content-center">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="(% url 'home' %)">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">My Events</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Add Events</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <a href="{% url 'login' %}" class="btn">Login</a>
+      <a href="{% url 'register' %}" class="btn">Create Account</a>
+    </div>
+  </div>
+</nav>

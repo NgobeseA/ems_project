@@ -1,8 +1,15 @@
 {% extends "base.html" %} {% block title %}Home | EMS{% endblock title %}
-{% block content %}
+{%block content %}
 <section id="hero" class="container mt-5">
-    <h1>Welcome to Event Management System</h1>
-    <a href="{% url 'login' %}" class="btn">Login</a>
-    <a href="{% url 'register' %}" class="btn">Create Account</a>
+  <div class="col-md-8 text-align-center">
+    <h1>Plan, Exexute, and Enjoy events</h1>
+    <p>
+      Create, manage, and promote events with our intuitive event management
+      system. From conferences to weddings, we've got you covered.
+    </p>
+  </div>
+  <div class="col-md-4">
+    
+  </div>
 </section>
 {% endblock content %}
