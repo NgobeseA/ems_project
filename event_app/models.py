@@ -1,33 +1,42 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True, verbose_name="Category Name")
 
     def __str__(self):
         return self.name
 
+
 class Event(models.Model):
-    organizer = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class StatusChoices(models.TextChoices):
+        UPCOMING = 'Upcoming', 'Upcoming'
+        ON_SHOW = 'OnShow', 'On Show'
+        PREVIOUS = 'PreviousEvent', 'Previous Event'
+
+    organizer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="events")
     title = models.CharField(max_length=200)
-    image = models.ImageField(upload_to="static/images/")
-    brief = models.CharField(250)
-    catagory = models.ForeignKey(Category, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="event_images/", blank=True, null=True)
+    brief = models.CharField(max_length=250, verbose_name="Brief Description")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="events")
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
     location = models.CharField(max_length=100)
-    venue = models.CharField(100)
+    venue = models.CharField(max_length=100)
     description = models.TextField()
+    status = models.CharField(
+        max_length=20,
+        choices=StatusChoices.choices,
+        default=StatusChoices.UPCOMING
+    )
     created_at_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
 
-class EventStatus(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    status = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.status
+    class Meta:
+        ordering = ['-date', 'start_time']
+        verbose_name = "Event"
+        verbose_name_plural = "Events"

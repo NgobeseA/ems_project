@@ -2,6 +2,9 @@
 {%block content %}
 <section id="hero" class="container mt-5">
   <div class="col-md-8 text-align-center">
+    {% if user.is_authenticated %}
+      <p>Welcome {{user.username}}</p>
+    {% endif %}
     <h1>Plan, Exexute, and Enjoy events</h1>
     <p>
       Create, manage, and promote events with our intuitive event management

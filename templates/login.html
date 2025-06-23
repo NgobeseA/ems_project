@@ -4,7 +4,7 @@
     class="form-container d-flex justify-content-center align-items-center flex-column"
   >
     <h2>Login here!</h2>
-    <form action="register" method="post" class="pt-4">
+    <form method="post" class="pt-4">
       {% csrf_token %}
       <div>
         <label for="">{{form.username.label}}</label>
@@ -14,14 +14,16 @@
         <label for="">{{form.password.label}}</label>
         <p>{{form.password}}</p>
       </div>
-
+      {% if messages %} {% for message in messages %}
+      <div class="text-danger">{{ message }}</div>
+      {% endfor %} {% endif %}
       <div class="pt-2">
         <button type="submit" class="btn btn-success">Create Account</button>
       </div>
     </form>
     <hr />
     <div>
-      <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+      <p>Do not have an account? <a href="{% url 'register' %}">Register</a></p>
     </div>
   </div>
 </section>
