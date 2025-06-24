@@ -57,13 +57,17 @@ def logout_view(request):
 def create_event(request):
     if request.method == 'POST':
         event_form = EventForm(request.POST, request.FILES)
+        print(f"form created with post {request.POST.get('title')}")
         if event_form.is_valid():
+            print(f'form is valid indeed')
             event = event_form.save(commit=False)
             event.organizer = request.user
             event.save()
             messages.success(request, 'Event was created successfully..')
-            return redirect('my_event_list')
+            return redirect('home')
         else:
+            print("Nooooo")
+            print(event_form.errors)
             messages.error(request, 'Invalid details on the event, Please check the errors')
     else:
         event_form = EventForm()
