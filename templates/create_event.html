@@ -11,6 +11,7 @@
         {% endif %}
         <h3>Add Event details</h3>
         <form action="" method="post">
+            {% csrf_token %}
             <div class="d-flex justify-content-between">
                 <div class="form-group mb-3">
                     <label for="">{{event_form.title.label}}</label>

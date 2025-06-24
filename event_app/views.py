@@ -57,7 +57,6 @@ def logout_view(request):
 def create_event(request):
     if request.method == 'POST':
         event_form = EventForm(request.POST, request.FILES)
-        print(request['category'])
         if event_form.is_valid():
             event = event_form.save(commit=False)
             event.organizer = request.user
