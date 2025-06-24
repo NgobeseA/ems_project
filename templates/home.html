@@ -3,7 +3,7 @@
 <section id="hero" class="container mt-5">
   <div class="col-md-8 text-align-center">
     {% if user.is_authenticated %}
-      <p>Welcome {{user.username}}</p>
+    <p>Welcome {{user.username}}</p>
     {% endif %}
     <h1>Plan, Exexute, and Enjoy events</h1>
     <p>
@@ -11,8 +11,53 @@
       system. From conferences to weddings, we've got you covered.
     </p>
   </div>
-  <div class="col-md-4">
-    
+  <div class="col-md-4"></div>
+</section>
+<section id="upcoming-events">
+  <div class="container">
+    <div>
+      <h1>Upcoming Events</h1>
+      <p>
+        Join us for exciting events! Exhibition, career expo, workshops, live
+        music and more.
+      </p>
+    </div>
+    <!-- filter form in events -->
+    <div>
+      <form action="" method="post"></form>
+    </div>
+    <!-- filter end form -->
+
+    <!-- list of events -->
+    <div class="row">
+      {% for event in events %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          {% if event.image %}
+          <img
+            src="{{ event.image.url }}"
+            class="card-img-top"
+            alt="{{ event.title }}"
+          />
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ event.title }}</h5>
+            <p class="card-text"><strong>Brief:</strong> {{ event.brief }}</p>
+            <p class="card-text"><strong>Date:</strong> {{ event.date }}</p>
+            <p class="card-text">
+              <strong>Location:</strong> {{ event.location }}
+            </p>
+            <a href="{% url 'event_detail' event.id %}" class="btn btn-primary"
+              >View Details</a
+            >
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-muted">No events found.</p>
+      {% endfor %}
+    </div>
+    <!-- end list of events -->
   </div>
 </section>
 {% endblock content %}

@@ -5,11 +5,12 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .forms import EventForm
-from .models import Category
+from .models import Category, Event
 
 # Create your views here.
 def home_view(request):
-    return render(request, 'home.html')
+    events = Event.objects.all()
+    return render(request, 'home.html', {'events': events})
 
 def login_view(request):
     if request.method == 'POST':
@@ -67,6 +68,5 @@ def create_event(request):
             messages.error(request, 'Invalid details on the event, Please check the errors')
     else:
         event_form = EventForm()
-        categories = Category.objects.all()
     
-    return render(request, 'create_event.html', {'event_form': event_form, 'categories': categories})
+    return render(request, 'create_event.html', {'event_form': event_form})
