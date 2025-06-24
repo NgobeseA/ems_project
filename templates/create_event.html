@@ -1,0 +1,71 @@
+{% extends "base.html" %}{% block title %}Add your Event | EMS {% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div>
+        {% if messages %}
+            {% for message in messages %}
+                <div>
+                    <p>{{message}}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <h3>Add Event details</h3>
+        <form action="" method="post">
+            <div class="d-flex justify-content-between">
+                <div class="form-group mb-3">
+                    <label for="">{{event_form.title.label}}</label>
+                    {{event_form.title}}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">{{event_form.location.label}}</label>
+                    {{event_form.location}}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">{{event_form.venue.label}}</label>
+                    {{event_form.venue}}
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="form-group mb-3">
+                    <label for="">{{event_form.date.label}}</label>
+                    {{event_form.date}}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">{{event_form.start_time.label}}</label>
+                    {{event_form.start_time}}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">{{event_form.end_time.label}}</label>
+                    {{event_form.end_time}}
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between">
+                <div class="form-group mb-3">
+                    <label for="">{{event_form.image.label}}</label>
+                    {{event_form.image}}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">{{event_form.category.label}}</label>
+                    {{event_form.category}}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="status">{{event_form.status.label}}</label>
+                    {{event_form.status}}
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="">{{event_form.brief.label}}</label>
+                {{event_form.brief}}
+            </div>
+            <div class="form-group mb-3">
+                <label for="">{{event_form.description.label}}</label>
+                {{event_form.description}}
+            </div>
+
+            <button type="submit" class="btn btn-success">Add Event</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

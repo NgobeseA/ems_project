@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
+from .forms import EventForm
+from .models import Category
 
 # Create your views here.
 def home_view(request):
@@ -11,6 +14,7 @@ def home_view(request):
 def login_view(request):
     if request.method == 'POST':
         login_form = AuthenticationForm(request, data=request.POST)
+
         if login_form.is_valid():
             username = login_form.cleaned_data.get('username')
             password = login_form.cleaned_data.get('password')
@@ -29,19 +33,40 @@ def login_view(request):
     return render(request, 'login.html', {'form': login_form})
 
 def register_view(request):
-    '''
-        Create a user account for people who are responsible to post events
-    '''
     if request.method == 'POST':
         register_form = UserCreationForm(request.POST)
+
         if register_form.is_valid():
-            register_form.save()
+            user = register_form.save()
+            login(request, user)
+            messages.success(request, f'Welcome {user.username}, your account was created successfully!')
             return redirect('home')
+        else:
+            messages.error(request, 'Registration failed. Please check the errors below.')
     else:
         register_form = UserCreationForm()
     return render(request, 'registration.html', {'form': register_form})
 
 def logout_view(request):
-    user = request.user
-    logout(request, user)
+    logout(request)
+    messages.success('You have logged out successfully')
     return redirect('home')
+
+@login_required
+def create_event(request):
+    if request.method == 'POST':
+        event_form = EventForm(request.POST, request.FILES)
+        print(request['category'])
+        if event_form.is_valid():
+            event = event_form.save(commit=False)
+            event.organizer = request.user
+            event.save()
+            messages.success(request, 'Event was created successfully..')
+            return redirect('my_event_list')
+        else:
+            messages.error(request, 'Invalid details on the event, Please check the errors')
+    else:
+        event_form = EventForm()
+        categories = Category.objects.all()
+    
+    return render(request, 'create_event.html', {'event_form': event_form, 'categories': categories})
