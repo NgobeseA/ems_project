@@ -81,3 +81,8 @@ def view_event(request, pk):
     else:
         print("error")
     return render(request, 'event_details.html', {'event': event})
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')
+
