@@ -2,3 +2,19 @@ ems_project/
 manage.py 
 
 db.sqlite3
+
+media/
+# Byte-compiled / optimized / DLL files
+event_app/__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+
+# Database
+*.sqlite3
+
+# Media and static files (optional, depends on setup)
+media/

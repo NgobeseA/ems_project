@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -43,7 +43,7 @@ def register_view(request):
             messages.success(request, f'Welcome {user.username}, your account was created successfully!')
             return redirect('home')
         else:
-            messages.error(request, 'Registration failed. Please check the errors below.')
+            messages.error(request, f'Registration failed. Please check the errors below. {register_form.errors}')
     else:
         register_form = UserCreationForm()
     return render(request, 'registration.html', {'form': register_form})
@@ -73,3 +73,11 @@ def create_event(request):
         event_form = EventForm()
     
     return render(request, 'create_event.html', {'event_form': event_form})
+
+def view_event(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    if event:
+        print(event)
+    else:
+        print("error")
+    return render(request, 'event_details.html', {'event': event})

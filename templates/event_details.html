@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% load static %} {% block title %}View Event Details | EMS_projects{% endblock %}
+{% block content%}
+<section class="fluid-container">
+    <div class="event-image">
+        <div class="contianer text-center">
+            <h1>{{event.title}}</h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div>
+                    <img src="{{event.image.url}}" class="img-fluid img-top" alt="{{event.title}}">
+                </div>
+                <div class="pt-2">
+                    <p>{{event.description}}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="bg-primary text-light text-center py-2">
+                    <p>Event start time: {{event.start_time}}</p>
+                </div>
+                <div class="">
+                    <p>Location: {{event.location}}
+                </div>
+                <div class="">
+                    <p>Venue: {{event.venue}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock%}
