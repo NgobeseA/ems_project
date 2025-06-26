@@ -53,7 +53,7 @@ def logout_view(request):
     messages.success('You have logged out successfully')
     return redirect('home')
 
-@login_required
+@login_required(login_url='login')
 def create_event(request):
     if request.method == 'POST':
         event_form = EventForm(request.POST, request.FILES)
@@ -76,13 +76,41 @@ def create_event(request):
 
 def view_event(request, pk):
     event = get_object_or_404(Event, pk=pk)
-    if event:
-        print(event)
-    else:
-        print("error")
     return render(request, 'event_details.html', {'event': event})
 
 def logout_view(request):
     logout(request)
     return redirect('home')
 
+@login_required
+def delete_event(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    if event and request.user == event.organizer:
+        if request.method == 'POST':
+            title = event.title
+            event.delete()
+            messages.success(request, f'Successfully deleted {title}')
+            return redirect('home')
+    else:
+        messages.warning(request, "Only an orginizer can perform this action.")
+    
+    return render(request, 'event_details.html', {'event': event})
+
+@login_required
+def edit_event_view(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    if event and request.user != event.organizer:
+        messages(request, "Only an orginizer can perfom this action.")
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = EventForm(request.POST, request.FILES, instance=event)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Event updated successfully')
+            return redirect('view_event', pk=event.pk)
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        event_form = EventForm(instance=event)
+    return render(request, 'create_event.html', {'event_form': event_form})
