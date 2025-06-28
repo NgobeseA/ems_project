@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from .forms import EventForm
+from .forms import EventForm, LoginForm, RegisterForm
 from .models import Category, Event
 
 # Create your views here.
@@ -14,7 +13,7 @@ def home_view(request):
 
 def login_view(request):
     if request.method == 'POST':
-        login_form = AuthenticationForm(request, data=request.POST)
+        login_form = LoginForm(request, data=request.POST)
 
         if login_form.is_valid():
             username = login_form.cleaned_data.get('username')
@@ -30,12 +29,12 @@ def login_view(request):
         else:
             messages.error(request, 'Invalid credentials. Please try again.')
     else:
-        login_form = AuthenticationForm()
+        login_form = LoginForm()
     return render(request, 'login.html', {'form': login_form})
 
 def register_view(request):
     if request.method == 'POST':
-        register_form = UserCreationForm(request.POST)
+        register_form = RegisterForm(request.POST)
 
         if register_form.is_valid():
             user = register_form.save()
@@ -45,7 +44,7 @@ def register_view(request):
         else:
             messages.error(request, f'Registration failed. Please check the errors below. {register_form.errors}')
     else:
-        register_form = UserCreationForm()
+        register_form = RegisterForm()
     return render(request, 'registration.html', {'form': register_form})
 
 def logout_view(request):
@@ -82,7 +81,7 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
-@login_required
+@login_required(login_url='login')
 def delete_event(request, pk):
     event = get_object_or_404(Event, pk=pk)
     if event and request.user == event.organizer:
@@ -96,7 +95,7 @@ def delete_event(request, pk):
     
     return render(request, 'event_details.html', {'event': event})
 
-@login_required
+@login_required(login_url='login')
 def edit_event_view(request, pk):
     event = get_object_or_404(Event, pk=pk)
     if event and request.user != event.organizer:
