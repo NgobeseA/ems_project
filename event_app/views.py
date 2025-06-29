@@ -11,6 +11,9 @@ def home_view(request):
     events = Event.objects.all()
     return render(request, 'home.html', {'events': events})
 
+def gallery_views(request):
+    return render(request, 'gallery.html')
+
 def login_view(request):
     if request.method == 'POST':
         login_form = LoginForm(request, data=request.POST)

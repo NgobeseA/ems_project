@@ -1,108 +1,167 @@
 {% extends "base.html" %} {% block title %}View Event Details | EMS_projects{%endblock %} {% block content%}
-<section class="fluid-container">
+<section class="fluid-container bg-light">
   <div class="event-container event-image">
-    <div class="container">
+    <div class="container text-container">
       <h1>{{event.title}}</h1>
     </div>
   </div>
-  <div class="container pt-5">
+  <div class="container main-content">
     <div class="row">
-      <div class="col-md-8">
-        <div>
-          <img
-            src="{{event.image.url}}"
-            class="img-fluid rounded"
-            alt="{{event.title}}"
-            height="400"
-          />
-        </div>
-        <div class="pt-2 bg-white">
-          <p>{{event.description}}</p>
-        </div>
-        <div class="d-flex">
-          {% if user.is_authenticated and event.organizer == user %}
-          <div>
-            <a href="{% url 'edit_event' event.pk %}">Edit event</a>
-            <button
-              type="button"
-              class="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#staticDeleteEvent"
-            >
-              Delete
-            </button>
-          </div>
-
-          <!-- Modal -->
-          <div
-            class="modal fade"
-            id="staticDeleteEvent"
-            data-bs-backdrop="static"
-            data-bs-keyboard="false"
-            tabindex="-1"
-            aria-labelledby="staticBackdropLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="staticBackdropLabel">
-                    {{event.title}}
-                  </h1>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  You are about to delete <span>{{event.title}}</span>. Are you
-                  sure want to remove it?
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    Cancel
-                  </button>
-                  <form
-                    action="{% url 'delete_event' event.pk %}"
-                    method="post"
-                  >
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                  </form>
-                </div>
+      <!-- Left Column - Event Image and Description -->
+      <div class="col-lg-8">
+          <div class="fade-in">
+              <!-- Event Image -->
+              <img src="{{ event.image.url }}" alt="{{ event.title }}" class="event-image">
+              
+              <!-- Event Description -->
+              <div class="event-description">
+                  {{ event.description|safe }}
               </div>
-            </div>
           </div>
-          {% endif %}
-        </div>
       </div>
-      <div class="col-md-4">
-        <div class="bg-primary text-light text-center py-2">
-          <p>Event start time: {{event.start_time}}</p>
-        </div>
-        <div class="">
-          <p>Location: {{event.location}}</p>
-        </div>
 
-        <div class="">
-          <p>Venue: {{event.venue}}</p>
-        </div>
+      <!-- Right Column - Event Details -->
+      <div class="col-lg-4">
+          <div class="event-details-card fade-in">
+              <!-- Header -->
+              <div class="event-details-header">
+                  <h3 class="event-details-title">Event Details</h3>
+        
+              </div>
 
-        <div class="">
-          <p>Category: {{event.category}}</p>
-        </div>
+              <!-- Countdown Timer -->
+              <div class="countdown-timer">
+                  <div class="countdown-grid" id="countdown">
+                      <div class="countdown-item">
+                          <div class="countdown-number" id="days">32</div>
+                          <div class="countdown-label">Days</div>
+                      </div>
+                      <div class="countdown-item">
+                          <div class="countdown-number" id="hours">20</div>
+                          <div class="countdown-label">Hours</div>
+                      </div>
+                      <div class="countdown-item">
+                          <div class="countdown-number" id="minutes">47</div>
+                          <div class="countdown-label">Min</div>
+                      </div>
+                      <div class="countdown-item">
+                          <div class="countdown-number" id="seconds">20</div>
+                          <div class="countdown-label">Sec</div>
+                      </div>
+                  </div>
+              </div>
 
-        <div class="">
-          <p>Organizer: {{event.organizer}}</p>
-        </div>
+              <!-- Event Info -->
+              <div class="event-info">
+                  <!-- Start Date -->
+                  <div class="event-info-item">
+                      <div class="event-info-icon">
+                          <i class="far fa-calendar"></i>
+                      </div>
+                      <div class="event-info-content">
+                          <div class="event-info-label">Start Time</div>
+                          <div class="event-info-value">{{ event.start_time }}</div>
+                      </div>
+                  </div>
+
+                  <!-- End Date -->
+                  <div class="event-info-item">
+                      <div class="event-info-icon">
+                          <i class="far fa-calendar-times"></i>
+                      </div>
+                      <div class="event-info-content">
+                          <div class="event-info-label">End time</div>
+                          <div class="event-info-value">{{ event.end_time }}</div>
+                      </div>
+                  </div>
+
+                  <!-- Door Time -->
+                  {% if event.door_time %}
+                  <div class="event-info-item">
+                      <div class="event-info-icon">
+                          <i class="fas fa-door-open"></i>
+                      </div>
+                      <div class="event-info-content">
+                          <div class="event-info-label">Door Time</div>
+                          <div class="event-info-value">{{ event.door_time|date:"g:i a" }}</div>
+                      </div>
+                  </div>
+                  {% endif %}
+
+                  <!-- Status -->
+                  <div class="event-info-item">
+                      <div class="event-info-icon">
+                          <i class="fas fa-check-circle"></i>
+                      </div>
+                      <div class="event-info-content">
+                          <div class="event-info-label">Status</div>
+                          <div class="event-info-value status-upcoming">{{ event.status}}</div>
+                      </div>
+                  </div>
+
+                  <!-- Location -->
+                  <div class="event-info-item">
+                      <div class="event-info-icon">
+                          <i class="fas fa-map-marker-alt"></i>
+                      </div>
+                      <div class="event-info-content">
+                          <div class="event-info-label">Location</div>
+                          <div class="event-info-value">{{ event.location|default:"California" }}</div>
+                      </div>
+                  </div>
+
+                  <!-- venue -->
+                  <div class="event-info-item">
+                    <div class="event-info-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="event-info-content">
+                        <div class="event-info-label">Venue</div>
+                        <div class="event-info-value">{{ event.venue|default:"ABT Telecoms Head Office" }}</div>
+                    </div>
+                  </div>
+
+                  <!-- Organizer -->
+                   <div class="event-info-item">
+                    <div class="event-info-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="event-info-content">
+                        <div class="event-info-label">Organizer</div>
+                        <div class="event-info-value">{{ event.organizer|default:"Admin" }}</div>
+                    </div>
+                  </div>
+              </div>
+          </div>
       </div>
-    </div>
+  </div>
   </div>
 </section>
+
+<script>
+        function updateCountdown() {
+            // You can replace this with your actual event date from Django
+            const eventDate = new Date('{{ event.start_date|date:"c" }}').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+                document.getElementById('seconds').textContent = seconds;
+            } else {
+                document.getElementById('countdown').innerHTML = '<div class="text-center"><h4>Event Started!</h4></div>';
+            }
+        }
+
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+    </script>
 {% endblock%}
