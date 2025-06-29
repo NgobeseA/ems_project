@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% block title %}Gallery | EMS{% endblock title %}
 
 {% block content %}
-<section classname="gallery">
+<section class="gallery">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -15,3 +15,76 @@
         </div>
     </div>
 </section>
+
+<section class="gallery-section">
+    <div class="container"></div>
+</section>
+
+<script>
+    const galleryCategories = [
+        {
+      title: "Conference & Exhibition",
+      images: [
+        "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1559223607-a43c990c692c?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=400&h=300&fit=crop"
+      ]
+    },
+    {
+      title: "Sports",
+      images: [
+        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1593766827228-8737b4534aa6?w=400&h=300&fit=crop"
+      ]
+    },
+    {
+      title: "Arts and Culture",
+      images: [
+        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1578662015144-58d5d4c79ba5?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1536431311719-398b6704d4cc?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=400&h=300&fit=crop"
+      ]
+    },
+    {
+      title: "Music Events",
+      images: [
+        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1571266028243-d220ad4eb72b?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=400&h=300&fit=crop"
+      ]
+    }
+    ];
+    const gallerySection = document.querySelector('.gallery-section .container');
+    
+    function createGallery(category, categoryIndex) {
+        return `
+            <div class="mb-5">
+                <h2 class="category-title">${category.title}</h2>
+                <div class="gallery-grid">
+                    ${category.images.map((image, index) => `
+                        <div class="gallery-item">
+                            <img src="${image}" alt="Gallery Image ${index + 1}" class="img-fluid">
+                        </div>
+                    `).join('')}
+                </div>
+                ${categoryIndex < galleryCategories.length - 1 ? '<hr class="section-divider">' : ''}
+            </div>
+        `;
+    }
+    
+    gallerySection.innerHTML = galleryCategories.map(createGallery).join('');
+</script>
+{% endblock %}
