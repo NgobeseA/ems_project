@@ -116,3 +116,7 @@ def edit_event_view(request, pk):
     else:
         event_form = EventForm(instance=event)
     return render(request, 'create_event.html', {'event_form': event_form})
+
+def get_started_view(request):
+    if request.method == 'POST':
+        pass
