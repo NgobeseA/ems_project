@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
-from .forms import EventForm, LoginForm, RegisterForm
+from .forms import EventForm, LoginForm, RegisterForm, EventFilterForm
 from .models import Category, Event
 
 # Create your views here.
@@ -116,3 +117,22 @@ def edit_event_view(request, pk):
     else:
         event_form = EventForm(instance=event)
     return render(request, 'create_event.html', {'event_form': event_form})
+
+def event_list_view(request):
+    form = EventFilterForm(request.GET)
+
+    form.fields.location.choices = [('', 'All locations')] + list(Event.objects.values_list('location', 'location'))
+    form.fields.category.choices = [('', 'All categories')] + list(Event.objects.values_list('category', 'category'))
+
+    events = Event.object.all()
+
+    if form.is_valid():
+        search = form.cleaned_data.get('search')
+        location = form.cleaned_data.get('location')
+        category = form.cleaned_data.get('category')
+        date_range = form.cleaned_data.get('date_range')
+
+        if search:
+            pass
+
+    return render(request, 'event_list.html', {'form': form, 'events': events})
