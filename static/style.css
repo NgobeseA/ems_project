@@ -267,10 +267,13 @@ body {
     font-size: 1.3rem;
     opacity: 0.9;
     max-width: 600px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     line-height: 1.6;
 }
-
+.sub-auto {
+    margin: 0 auto;
+    max-width: 600px;
+}
 .gallery-section {
     padding: 80px 0;
     background-color: #f8f9fa;
@@ -331,4 +334,11 @@ body {
     background: linear-gradient(135deg, var(--primary-gold), var(--primary-gold-light));
     margin: 40px 0;
     opacity: 0.3;
+}
+
+.my-card {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

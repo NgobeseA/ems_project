@@ -136,3 +136,8 @@ def event_list_view(request):
             pass
 
     return render(request, 'event_list.html', {'form': form, 'events': events})
+
+def get_started_view(request):
+    if request.method == 'POST':
+        pass
+
