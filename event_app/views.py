@@ -141,3 +141,6 @@ def get_started_view(request):
     if request.method == 'POST':
         pass
 
+@login_required(login_url='login')
+def users_events(request):
+    pass

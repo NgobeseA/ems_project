@@ -12,6 +12,8 @@ from .views import (
     edit_event_view, 
     gallery_views,
     get_started_view,
+    users_events,
+    event_list_view
     )
 
 urlpatterns = [
@@ -24,5 +26,8 @@ urlpatterns = [
     path('view_event/<int:pk>/details/', view_event, name='view_event'),
     path('logout/', logout_view, name='logout'),
     path('delete_event/<int:pk>/', delete_event, name='delete_event'),
-    path('edit_event/<int:pk>', edit_event_view, name='edit_event')
+    path('edit_event/<int:pk>', edit_event_view, name='edit_event'),
+    path('myEvents/', users_events, name="my_events"),
+    path('events-list', event_list_view, name="event_list")
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
