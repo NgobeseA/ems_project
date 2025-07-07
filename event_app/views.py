@@ -121,8 +121,8 @@ def edit_event_view(request, pk):
 def event_list_view(request):
     form = EventFilterForm(request.GET)
 
-    form.fields.location.choices = [('', 'All locations')] + list(Event.objects.values_list('location', 'location'))
-    form.fields.category.choices = [('', 'All categories')] + list(Event.objects.values_list('category', 'category'))
+    form.fields['location'].choices = [('', 'All locations')] + list(Event.objects.values_list('location', 'location'))
+    form.fields['category'].choices = [('', 'All categories')] + list(Event.objects.values_list('category', 'category'))
 
     events = Event.object.all()
 
@@ -143,4 +143,10 @@ def get_started_view(request):
 
 @login_required(login_url='login')
 def users_events(request):
-    pass
+    user = request.user
+    try:
+        my_events = Event.objects.filter(organizer=user)
+    except:
+        my_events = None
+
+    return render(request, 'my_events.html', {'events': my_events})

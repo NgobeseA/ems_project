@@ -1,13 +1,16 @@
 {% extends "base.html" %} {% block title %}Login{% endblock title %} {% block content %}
 <section id="login" class="container">
   <div
-    class="form-container d-flex justify-content-center align-items-center flex-column"
+    class="d-flex justify-content-center align-items-center flex-column wrapper"
   >
-    <h2>Login here!</h2>
+    <div class="form-box">
+      <div class="form-header">
+        <span>Login here!</span>
+      </div>
     <form method="post" class="pt-4">
       {% csrf_token %}
-      <div>
-        <label for="">{{form.username.label}}</label>
+      <div class="input-box">
+        <label for="" class="label">{{form.username.label}}</label>
         <p>{{form.username}}</p>
       </div>
       <div>
@@ -17,13 +20,17 @@
       {% if messages %} {% for message in messages %}
       <div class="text-danger">{{ message }}</div>
       {% endfor %} {% endif %}
-      <div class="pt-2">
-        <button type="submit" class="btn btn-success">Create Account</button>
+      <div class="forgot-pass">
+        <a href="" class="link">Forgot password?</a>
+      </div> 
+      <div class="pt-2 btn-container">
+        <button type="submit" class="submit-btn">Login</button>
       </div>
     </form>
     <hr />
     <div>
-      <p>Do not have an account? <a href="{% url 'register' %}">Register</a></p>
+      <p>Do not have an account? <a href="{% url 'register' %}" class="link">Register</a></p>
+    </div>
     </div>
   </div>
 </section>

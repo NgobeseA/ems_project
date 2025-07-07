@@ -1,37 +1,41 @@
-{% extends "base.html" %} {% block title %}Create Account{% endblock title %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Create Account{% endblock title %} {%block content %}
 <section id="register" class="contianer">
-    <div class="form-container d-flex justify-content-center align-items-center flex-column w-100">
-        <h2>Create Account</h2>
-        <form method="post" class="pt-4">
-            {% csrf_token %}
-            {% if messages %}
-                {%for message in messages%}
-                    <div class="alert alert-danger" role="alert">
-                        {{message}}
-                    </div>
-                {%endfor%}
-            {%endif%}
-            <div >
-                <label for="">{{form.username.label}}</label>
-                <p>{{form.username}}</p>
-            </div>
-            <div >
-                <label for="">{{form.password1.label}}</label>
-                <p>{{form.password1}}</p>
-            </div>
-            <div >
-                <label for="">{{form.password2.label}}</label>
-                <p>{{form.password2}}</p>
-            </div>
-            <div class="pt-2">
-                <button type="submit" class="btn btn-success">Create Account</button>
-            </div>
-        </form>
-        <hr>
-        <div>
-            <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+  <div
+    class="form-container d-flex justify-content-center align-items-center flex-column wrapper"
+  >
+    <div class="form-box">
+      <div class="form-header">
+        <span>Create Account</span>
+      </div>
+      <form method="post" class="pt-4">
+        {% csrf_token %} {% if messages %} {%for message in messages%}
+        <div class="alert alert-" role="alert">{{message}}</div>
+        {%endfor%} {%endif%}
+        <div class="input-box">
+          <label for="">{{form.username.label}}</label>
+          <p>{{form.username}}</p>
         </div>
+        <div class="input-box">
+          <label for="">{{form.email.label}}</label>
+          <p>{{form.email}}</p>
+        </div>
+        <div class="input-box">
+          <label for="">Password</label>
+          <p>{{form.password1}}</p>
+        </div>
+        <div class="input-box">
+          <label for="">Confirm password</label>
+          <p>{{form.password2}}</p>
+        </div>
+        <div class="pt-2 btn-container">
+          <button type="submit" class="submit-btn">Create Account</button>
+        </div>
+      </form>
+      <hr />
+      <div>
+        <p>Already have an account? <a href="{% url 'login' %}" class="link">Login</a></p>
+      </div>
     </div>
+  </div>
 </section>
 {% endblock content %}
