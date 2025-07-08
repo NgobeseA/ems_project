@@ -119,12 +119,12 @@ def edit_event_view(request, pk):
     return render(request, 'create_event.html', {'event_form': event_form})
 
 def event_list_view(request):
-    form = EventFilterForm(request.GET)
+    form = EventFilterForm(request.GET or None)
 
-    form.fields.location.choices = [('', 'All locations')] + list(Event.objects.values_list('location', 'location'))
-    form.fields.category.choices = [('', 'All categories')] + list(Event.objects.values_list('category', 'category'))
+    form.fields['location'].choices = [('', 'All locations')] + list(Event.objects.values_list('location', 'location').distinct())
+    form.fields['category'].choices = [('', 'All categories')] + list(Event.objects.values_list('category', 'category').distinct())
 
-    events = Event.object.all()
+    events = Event.objects.all()
 
     if form.is_valid():
         search = form.cleaned_data.get('search')

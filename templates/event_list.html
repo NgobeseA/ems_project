@@ -1,0 +1,71 @@
+{% extends "base.html" %}{% block title %}Events{% endblock %}{% block content%}
+<section class="container mt-5">
+  <div class="row d-flex">
+    <div class="col-md-3">
+      <div class="form-container shadow">
+        <form action="" method="get">
+          {{ form.search }} {{ form.location }} {{ form.category }} {{
+          form.date_range }}
+          <button type="submit" class="btn btn-primary mt-2">Filter</button>
+        </form>
+      </div>
+    </div>
+    <div class=".col-md-9 shadow">
+      {% if events %}
+      <div class="row d-flex">
+        {% for event in events %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 fade-in my-card">
+            {% if event.image %}
+            <img
+              src="{{ event.image.url }}"
+              class="card-img-top"
+              alt="{{ event.title }}"
+            />
+            {% endif %}
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title my-card-title">{{ event.title }}</h5>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="d-flex gap-1">
+                  <i class="bi bi-calendar-event" style="color: #6b7280" 13></i>
+                  <p class="card-text" style="color: #6b7280">
+                    {{ event.date }}
+                  </p>
+                </div>
+                <div class="d-flex gap-1">
+                  <i class="bi bi-geo-alt-fill" style="color: #6b7280"></i>
+                  <p class="card-text" style="color: #6b7280">
+                    {{ event.location }}
+                  </p>
+                </div>
+                <div class="d-flex gap-1">
+                  <i class="bi bi-geo-alt-fill" style="color: #6b7280"></i>
+                  <p class="card-text" style="color: #6b7280">
+                    {{ event.organizer }}
+                  </p>
+                </div>
+              </div>
+
+              <p class="event-description">{{ event.brief }}</p>
+
+              <div class="d-grid gap-2">
+                <a
+                  href="{% url 'view_event' event.pk %}"
+                  class="btn btn-primary"
+                  >View Details</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="text-muted">No events found.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}
