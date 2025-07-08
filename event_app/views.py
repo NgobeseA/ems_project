@@ -124,6 +124,7 @@ def event_list_view(request):
     form.fields['location'].choices = [('', 'All locations')] + list(Event.objects.values_list('location', 'location').distinct())
     form.fields['category'].choices = [('', 'All categories')] + list(Event.objects.values_list('category', 'category').distinct())
 
+
     events = Event.objects.all()
 
     if form.is_valid():
@@ -143,4 +144,10 @@ def get_started_view(request):
 
 @login_required(login_url='login')
 def users_events(request):
-    pass
+    user = request.user
+    try:
+        my_events = Event.objects.filter(organizer=user)
+    except:
+        my_events = None
+
+    return render(request, 'my_events.html', {'events': my_events})

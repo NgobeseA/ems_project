@@ -24,14 +24,14 @@ class EventForm(forms.ModelForm):
 class LoginForm(AuthenticationForm):
     username = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'form-control',
+            'class': 'input-field',
             'placeholder': 'Username',
             'required': 'required'
         })
     )
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
+            'class': 'input-field',
             'required': 'required',
             'minlength': '8',
             'placeholder': 'Enter password'
@@ -39,10 +39,10 @@ class LoginForm(AuthenticationForm):
     )
 
 class RegisterForm(UserCreationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username', 'required': 'required'}))
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control','placeholder': 'Email','required': 'required'}))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control','required': 'required','minlength': '8','placeholder': 'Enter password'}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control','required': 'required','minlength': '8','placeholder': 'Confirm password'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control input-field', 'placeholder': 'Username', 'required': 'required'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control input-field','placeholder': 'Email','required': 'required'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control input-field','required': 'required','minlength': '8','placeholder': 'Enter password'}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control input-field','required': 'required','minlength': '8','placeholder': 'Confirm password'}))
 
 class EventFilterForm(forms.Form):
     search_input = forms.CharField(label="Search Event", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search events...'}))

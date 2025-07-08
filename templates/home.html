@@ -68,9 +68,9 @@
           />
           {% endif %}
           <div class="card-body">
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between card-header">
               <h5 class="card-title my-card-title">{{ event.title }}</h5>
-              
+              <span>{{event.category}}</span>
             </div>
             <div class="d-flex justify-content-between">
               <div class="d-flex gap-1 ">
@@ -84,13 +84,13 @@
                 </p>
               </div>
               <div class="d-flex gap-1">
-                <i class="bi bi-geo-alt-fill" style="color:#6B7280;"></i>
+                <i class="bi bi-person-fill" style="color:#6B7280;"></i>
                 <p class="card-text" style="color:#6B7280;">
                    {{ event.organizer }}
                 </p>
               </div>
             </div>
-            
+            <hr>
             <p class="event-description"> {{ event.brief }}</p>
             
             

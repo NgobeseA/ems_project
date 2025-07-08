@@ -10,6 +10,7 @@
     --text-muted: #9CA3AF;
     --bg-light: #F9FAFB;
     --border-light: #E5E7EB;
+    --black: #000000;
 }
 
 * {
@@ -345,4 +346,111 @@ body {
     border-radius: 16px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ******************************* LOGIN/ REGISTER FORM ********************** */
+.link{
+    color: var(--primary-gold);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+}
+.link:hover{
+    text-decoration: underline;
+}
+
+.wrapper {
+    min-height: 75vh;
+    
+}
+
+.form-box {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-header {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: var(--primary-gold);
+    padding: 0.5rem 1rem;
+    height: 40px;
+    border-radius: 0 0 8px 8px;
+    margin-bottom: 1.5rem;
+}
+
+.form-header span {
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.input-field{
+    width: 100%;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--black);
+    border-radius: 0.5rem;
+}
+
+.forgot-pass{
+    text-align: right;
+    margin-bottom: 1rem;
+    
+}
+
+.btn-container {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.submit-btn{
+    width: 100%;
+    padding: 0.5rem;
+    background: var(--primary-gold);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: var(--primary-gold-light);
+}
+
+/* *********************** End **************** */
+
+/* *********************** CARD *************** */
+.card-header {
+    background: transparent;
+    align-content: center;
+}
+
+.card-header h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.card-header span {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    background: var(--primary-gold-light);
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.25rem;
 }
