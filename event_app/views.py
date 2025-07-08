@@ -78,8 +78,15 @@ def create_event(request):
     return render(request, 'create_event.html', {'event_form': event_form})
 
 def view_event(request, pk):
+    """
+    View function for displaying details of a single event.
+    
+    Retrieves an event by its primary key (pk) and renders the event detail page.
+    Also fetches recommended events based on the selected event's category.
+    """
     event = get_object_or_404(Event, pk=pk)
-    return render(request, 'event_details.html', {'event': event})
+    recommend_events = recommended_events_by_category(event.category, pk)
+    return render(request, 'event_details.html', {'event': event, 'events':recommend_events})
 
 def logout_view(request):
     logout(request)
@@ -118,12 +125,15 @@ def edit_event_view(request, pk):
         event_form = EventForm(instance=event)
     return render(request, 'create_event.html', {'event_form': event_form})
 
+
 def event_list_view(request):
     form = EventFilterForm(request.GET or None)
 
-    form.fields['location'].choices = [('', 'All locations')] + list(Event.objects.values_list('location', 'location').distinct())
-    form.fields['category'].choices = [('', 'All categories')] + list(Event.objects.values_list('category', 'category').distinct())
+    locations = sorted(Event.objects.values_list('location', flat=True).distinct())
+    categories = Event.objects.values_list('category', flat=True).distinct()
 
+    form.fields['location'].choices = [('','All location')] + [(location, location) for location in locations]
+    form.fields['category'].choices = [('','All category')] + [(category, category) for category in categories]
 
     events = Event.objects.all()
 
@@ -151,3 +161,16 @@ def users_events(request):
         my_events = None
 
     return render(request, 'my_events.html', {'events': my_events})
+
+def recommended_events_by_category(category, current_event_id):
+    """
+    This function get the recommended events if the user click view event details
+    current_event_id is the selected event for viewing
+    Retrieves the events recommended event base on the selected category except the selected event
+    """
+    events = Event.objects.filter(category=category).exclude(pk=current_event_id)
+
+    if not events.exists():
+        events = Event.objects.filter(status="Upcoming").exclude(pk=current_event_id)[:3]
+
+    return events

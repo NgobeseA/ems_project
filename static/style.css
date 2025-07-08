@@ -51,6 +51,28 @@ body {
     color: var(--primary-gold) !important;
 }
 
+.user-circle {
+  width: 40px;
+  height: 40px;
+  background-color: var(--primary-gold);
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  line-height: 40px;
+  font-size: 20px;
+  margin: 0 auto;
+}
+
+.username-text {
+  display: block;
+  text-align: center;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #333;
+}
+
+
 /* Main Content */
 .main-content {
     margin-top: 2rem;
