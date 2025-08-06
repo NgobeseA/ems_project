@@ -3,9 +3,13 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.db.models import F
+from django_filters import rest_framework as filters
+from django.http import JsonResponse
 
 from .forms import EventForm, LoginForm, RegisterForm, EventFilterForm
 from .models import Category, Event
+from .filters import EventFilter
 
 # Create your views here.
 def home_view(request):
@@ -85,6 +89,11 @@ def view_event(request, pk):
     Also fetches recommended events based on the selected event's category.
     """
     event = get_object_or_404(Event, pk=pk)
+    session_key = f'viewed_event_{pk}'
+    if not request.session.get(session_key):
+        Event.objects.filter(pk=pk).update(views_count=F('views_count')+1)
+        Event.refresh_from_db()
+        request.session[session_key] = True
     recommend_events = recommended_events_by_category(event.category, pk)
     return render(request, 'event_details.html', {'event': event, 'events':recommend_events})
 
@@ -127,26 +136,25 @@ def edit_event_view(request, pk):
 
 
 def event_list_view(request):
-    form = EventFilterForm(request.GET or None)
+    queryset = Event.objects.all()
+    filterset = EventFilter(request.GET, queryset=queryset)
 
-    locations = sorted(Event.objects.values_list('location', flat=True).distinct())
-    categories = Event.objects.values_list('category', flat=True).distinct()
+    if filterset.is_valid():
+        filtered_queryset = filterset.qs
+        data = [
+            {
+                'id': event.id,
+                'title': event.title,
+                'location': event.location,
+                'status': event.status,
+                'category': event.category,
+            }
+            for event in filtered_queryset
+        ]
+        return JsonResponse(data, safe=False)
+    else:
+        return JsonResponse({'error': 'Invalid filters'}, status=400)
 
-    form.fields['location'].choices = [('','All location')] + [(location, location) for location in locations]
-    form.fields['category'].choices = [('','All category')] + [(category, category) for category in categories]
-
-    events = Event.objects.all()
-
-    if form.is_valid():
-        search = form.cleaned_data.get('search')
-        location = form.cleaned_data.get('location')
-        category = form.cleaned_data.get('category')
-        date_range = form.cleaned_data.get('date_range')
-
-        if search:
-            pass
-
-    return render(request, 'event_list.html', {'form': form, 'events': events})
 
 def get_started_view(request):
     if request.method == 'POST':
