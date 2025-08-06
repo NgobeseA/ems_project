@@ -1,41 +1,35 @@
-{% extends "base.html" %} {% block title %}Create Account{% endblock title %} {%block content %}
-<section id="register" class="contianer">
-  <div
-    class="form-container d-flex justify-content-center align-items-center flex-column wrapper"
-  >
-    <div class="form-box">
-      <div class="form-header">
-        <span>Register</span>
-      </div>
-      <form method="post" class="pt-4">
-        {% csrf_token %} {% if messages %} {%for message in messages%}
-        <div class="alert alert-" role="alert">{{message}}</div>
-        {%endfor%} {%endif%}
-        <div class="input-box">
-          <label for="">{{form.username.label}}</label>
-          <p>{{form.username}}</p>
+{% extends "core/base.html" %}
+{% block title %}Register{% endblock title %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card shadow" style="width: 350px;">
+    <div class="card-body">
+      <h4 class="card-title text-center mb-4">Register</h4>
+      <form method="post" action="{% url 'register' %}" id="myForm">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control" id="username" name="username" required>
         </div>
-        <div class="input-box">
-          <label for="">{{form.email.label}}</label>
-          <p>{{form.email}}</p>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" required>
         </div>
-        <div class="input-box">
-          <label for="">Password</label>
-          <p>{{form.password1}}</p>
+        <div class="mb-3">
+          <label for="mobile_number" class="form-label">Mobile Number</label>
+          <input type="text" class="form-control" id="mobile_number" name="mobile_number" required>
         </div>
-        <div class="input-box">
-          <label for="">Confirm password</label>
-          <p>{{form.password2}}</p>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required>
         </div>
-        <div class="pt-2 btn-container">
-          <button type="submit" class="submit-btn">Create Account</button>
-        </div>
+        <button type="submit" class="btn btn-primary w-100">Register</button>
       </form>
-      <hr />
-      <div>
-        <p>Already have an account? <a href="{% url 'login' %}" class="link">Login</a></p>
+      <div class="mt-3 text-center">
+        <span>Already have an account?</span>
+        <a href="{% url 'login' %}">Login</a>
       </div>
     </div>
   </div>
-</section>
-{% endblock content %}
+</div>
+{%endblock%}
