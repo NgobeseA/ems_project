@@ -20,6 +20,7 @@ class Event(models.Model):
     image = models.ImageField(upload_to="event_images/", blank=True, null=True)
     brief = models.CharField(max_length=250, verbose_name="Brief Description")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="events")
+    views_count = models.PositiveIntegerField(default=0, editable=False)
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()

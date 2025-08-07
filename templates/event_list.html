@@ -1,10 +1,13 @@
-{% extends "base.html" %}{% block title %}Events | EMS{% endblock %}{% block content%}
+{% extends "base.html" %}{% block title %}Events | EMS{% endblock %}{% block
+content%}
 <section class="container mt-5">
+  {% if events %}
   <div class="row d-flex">
     <div class="col-md-3">
       <div class="form-container shadow">
         <form action="" method="get">
-          {{ form.search }} {{ form.location }} {{ form.category }} {{form.date_range }}
+          {{ form.search }} {{ form.location }} {{ form.category }}
+          {{form.date_range }}
           <button type="submit" class="btn btn-primary mt-2">Filter</button>
         </form>
       </div>
@@ -66,5 +69,8 @@
       {% endif %}
     </div>
   </div>
+  {%else%}
+  <p class="muted">No events available at the moment</p>
+  {%endif%}
 </section>
 {% endblock %}
