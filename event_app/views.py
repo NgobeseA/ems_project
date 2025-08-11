@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db.models import F
 from django_filters import rest_framework as filters
@@ -42,6 +43,7 @@ def login_view(request):
 
 def register_view(request):
     if request.method == 'POST':
+        print(f"Username: {request.POST['username']}")
         register_form = RegisterForm(request.POST)
 
         if register_form.is_valid():
@@ -89,10 +91,13 @@ def view_event(request, pk):
     Also fetches recommended events based on the selected event's category.
     """
     event = get_object_or_404(Event, pk=pk)
+    user = event.organizer
+    user_email = user.email
+    # user_contact = user.mobile_number
     session_key = f'viewed_event_{pk}'
     if not request.session.get(session_key):
         Event.objects.filter(pk=pk).update(views_count=F('views_count')+1)
-        Event.refresh_from_db()
+        event.refresh_from_db()
         request.session[session_key] = True
     recommend_events = recommended_events_by_category(event.category, pk)
     return render(request, 'event_details.html', {'event': event, 'events':recommend_events})
@@ -139,21 +144,22 @@ def event_list_view(request):
     queryset = Event.objects.all()
     filterset = EventFilter(request.GET, queryset=queryset)
 
-    if filterset.is_valid():
-        filtered_queryset = filterset.qs
-        data = [
-            {
-                'id': event.id,
-                'title': event.title,
-                'location': event.location,
-                'status': event.status,
-                'category': event.category,
-            }
-            for event in filtered_queryset
-        ]
-        return JsonResponse(data, safe=False)
-    else:
-        return JsonResponse({'error': 'Invalid filters'}, status=400)
+    # if filterset.is_valid():
+    #     filtered_queryset = filterset.qs
+    #     data = [
+    #         {
+    #             'id': event.id,
+    #             'title': event.title,
+    #             'location': event.location,
+    #             'status': event.status,
+    #             'category': event.category,
+    #         }
+    #         for event in filtered_queryset
+    #     ]
+    #     return JsonResponse(data, safe=False)
+    # else:
+    #     return JsonResponse({'error': 'Invalid filters'}, status=400)
+    return render(request, 'event_list.html', {'filter': filterset})
 
 
 def get_started_view(request):
@@ -167,6 +173,7 @@ def users_events(request):
         my_events = Event.objects.filter(organizer=user)
     except:
         my_events = None
+        
 
     return render(request, 'my_events.html', {'events': my_events})
 
