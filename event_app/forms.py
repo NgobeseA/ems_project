@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.models import User
 
 from .models import Event
 
@@ -44,6 +45,17 @@ class RegisterForm(UserCreationForm):
     mobile_number = forms.CharField()
     password1 = forms.CharField()
     password2 = forms.CharField()
+    
+    class RegisterForm(UserCreationForm):
+        username = forms.CharField()
+        email = forms.EmailField()
+        mobile_number = forms.CharField()
+        password1 = forms.CharField()
+        password2 = forms.CharField()
+
+        class Meta:
+            model = User  # Note the colon before the User class
+            fields = ['username', 'email', 'mobile_number', 'password1', 'password2']
 
 class EventFilterForm(forms.Form):
     search_input = forms.CharField(label="Search Event", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search events...'}))

@@ -41,3 +41,6 @@ class Event(models.Model):
         ordering = ['-date', 'start_time']
         verbose_name = "Event"
         verbose_name_plural = "Events"
+
+class User(User):
+    mobile_number = models.CharField(max_length=20)

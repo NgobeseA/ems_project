@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db.models import F
 from django_filters import rest_framework as filters
@@ -90,10 +91,13 @@ def view_event(request, pk):
     Also fetches recommended events based on the selected event's category.
     """
     event = get_object_or_404(Event, pk=pk)
+    user = event.organizer
+    user_email = user.email
+    # user_contact = user.mobile_number
     session_key = f'viewed_event_{pk}'
     if not request.session.get(session_key):
         Event.objects.filter(pk=pk).update(views_count=F('views_count')+1)
-        Event.refresh_from_db()
+        event.refresh_from_db()
         request.session[session_key] = True
     recommend_events = recommended_events_by_category(event.category, pk)
     return render(request, 'event_details.html', {'event': event, 'events':recommend_events})
@@ -169,6 +173,7 @@ def users_events(request):
         my_events = Event.objects.filter(organizer=user)
     except:
         my_events = None
+        
 
     return render(request, 'my_events.html', {'events': my_events})
 

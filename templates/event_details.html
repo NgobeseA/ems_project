@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% block title %}View Event Details | EMS_projects{%endblock %} {% block content%}
+{% extends "base.html" %} {% block title %}View Event Details | EMS_projects{%endblock %}
+{%load static%}
+{% block content%}
 <section class="fluid-container bg-light">
   <div class="event-container event-image">
     <div class="container text-container">
@@ -98,26 +100,34 @@
               </div>
 
               <!-- Countdown Timer -->
-              <div class="countdown-timer">
-                  <div class="countdown-grid" id="countdown">
-                      <div class="countdown-item">
-                          <div class="countdown-number" id="days">32</div>
-                          <div class="countdown-label">Days</div>
-                      </div>
-                      <div class="countdown-item">
-                          <div class="countdown-number" id="hours">20</div>
-                          <div class="countdown-label">Hours</div>
-                      </div>
-                      <div class="countdown-item">
-                          <div class="countdown-number" id="minutes">47</div>
-                          <div class="countdown-label">Min</div>
-                      </div>
-                      <div class="countdown-item">
-                          <div class="countdown-number" id="seconds">20</div>
-                          <div class="countdown-label">Sec</div>
-                      </div>
-                  </div>
-              </div>
+              <div id="countdown" class="text-center">
+  <h2>Event Countdown:</h2>
+  <div class="row d-flex justify-content-center">
+    <div class="">
+      <div class="card">
+        <div class="card-body d-flex justify-content-between gap-2">
+          <div><h5 id="days">0</h5>
+          <p>Days</p>
+          </div>
+          <div>
+          <h5 id="hours">0</h5>
+          <p>Hours</p>
+          </div>
+      
+          <div>
+          <h5 id="minutes">0</h5>
+          <p>Minutes</p>
+          </div>
+    
+          <div>
+          <h5 id="seconds">0</h5>
+          <p>Seconds</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
               <!-- Event Info -->
               <div class="event-info">
@@ -189,6 +199,8 @@
                     </div>
                   </div>
 
+                  <p class="text-muted">Contact Info</p>
+
                   <!-- Organizer -->
                    <div class="event-info-item">
                     <div class="event-info-icon">
@@ -197,6 +209,16 @@
                     <div class="event-info-content">
                         <div class="event-info-label">Organizer</div>
                         <div class="event-info-value">{{ event.organizer|default:"Admin" }}</div>
+                    </div>
+                  </div>
+
+                  <div class="event-info-item">
+                    <div class="event-info-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="event-info-content">
+                        <div class="event-info-label">Organizer Email</div>
+                        <div class="event-info-value">{{ organizer.email|default:"admin@ems.co.za" }}</div>
                     </div>
                   </div>
               </div>
@@ -208,25 +230,29 @@
 
 <script>
         function updateCountdown() {
-            // You can replace this with your actual event date from Django
-            const eventDate = new Date('{{ event.start_date|date:"c" }}').getTime();
-            const now = new Date().getTime();
-            const distance = eventDate - now;
+  // Get the event date from Django
+  const eventDateString = "{{ event.date|date:'c' }}";
+  const eventDate = new Date(eventDateString);
+  const now = new Date();
+  const distance = eventDate.getTime() - now.getTime();
 
-            if (distance > 0) {
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  console.log(distance);
 
-                document.getElementById('days').textContent = days;
-                document.getElementById('hours').textContent = hours;
-                document.getElementById('minutes').textContent = minutes;
-                document.getElementById('seconds').textContent = seconds;
-            } else {
-                document.getElementById('countdown').innerHTML = '<div class="text-center"><h4>Event Started!</h4></div>';
-            }
-        }
+  if (distance > 0) {
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    console.log(days);
+    document.getElementById('days').innerHTML = days;
+    document.getElementById('hours').textContent = hours;
+    document.getElementById('minutes').textContent = minutes;
+    document.getElementById('seconds').textContent = seconds;
+  } else {
+    document.getElementById('countdown').innerHTML = '<div class="text-center"><h4>Event Started!</h4></div>';
+  }
+}
 
         // Update countdown every second
         setInterval(updateCountdown, 1000);

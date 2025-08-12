@@ -1,17 +1,29 @@
 {% extends "base.html" %}{% block title %}Events | EMS{% endblock %}
 {% block content%}
 <section class="container-fluid mt-5">
+  {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <div class="alert 
+        {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" 
+        role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
   {% if filter %}
     <div class="row">
       <!-- Filter form -->
-      <div class="col-md-4">
+      <div class="col-md-3">
         <form method="get">
             {{ filter.form.as_p }}
             <input type="submit" />
         </form>
       </div>
-      <div class="col-md-8">
-        {%for event in filter.qs%}
+      <div class="col-md-9">
+        <div class="row">
+          {%for event in filter.qs%}
         <div class="col-md-4 mb-4">
         <div class="event-card">
           <img src="{{event.image}}" max-height="180px" alt="{{event.title}}">
@@ -30,12 +42,13 @@
 
           <div class="d-flex justify-content-between align-items-center pt-3">
             <p class="text-muted"><i class="fa-solid fa-eye"></i>Views: {{event.views_count}}</p>
-            <a href="" class="button">View Details</a>
+            <a href="{% url 'view_event' event.pk %}" class="button">View Details</a>
           </div>
           
         </div>
       </div>
         {%endfor%}
+        </div>
       </div>
     </div>
   {%else%}
