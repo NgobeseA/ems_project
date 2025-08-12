@@ -72,6 +72,7 @@ body {
 }
 
 img {
+    display: block;
   max-width: 100%; /*to avoid horizontal scrolling*/
   height: auto;
 }
@@ -99,9 +100,57 @@ header ul, footer ul{
     list-style-type: none;
   }
 }
-
-<<<<<<< HEAD
 }
+
+@layer hero {
+    .hero-content {
+
+        @media (width >= calc(700 / 16 * 1rem)) {
+            max-width: 20ch;
+        }
+    }
+}
+
+@layer EventCard {
+    .event-card-header {
+        margin-block: 1rem;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .event-card {
+        display: grid;
+
+        ul {
+            align-self: left;
+            display: flex;
+            justify-content: space-between;
+            
+
+            li {
+                list-style: none;
+
+                a {
+                    padding-left: .5rem;
+                }
+            }
+        }
+    }
+}
+
+@layer button {
+  .button {
+    background: var(--c-navy);
+    width: fit-content;
+    padding: 14px 32px;
+    color: var(--c-white);
+    display: block;
+    text-align: center;
+    
+  }
+}
+
+
 
 /* Main Content */
 .main-content {

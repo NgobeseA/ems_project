@@ -42,6 +42,7 @@ def login_view(request):
 
 def register_view(request):
     if request.method == 'POST':
+        print(f"Username: {request.POST['username']}")
         register_form = RegisterForm(request.POST)
 
         if register_form.is_valid():
@@ -139,21 +140,22 @@ def event_list_view(request):
     queryset = Event.objects.all()
     filterset = EventFilter(request.GET, queryset=queryset)
 
-    if filterset.is_valid():
-        filtered_queryset = filterset.qs
-        data = [
-            {
-                'id': event.id,
-                'title': event.title,
-                'location': event.location,
-                'status': event.status,
-                'category': event.category,
-            }
-            for event in filtered_queryset
-        ]
-        return JsonResponse(data, safe=False)
-    else:
-        return JsonResponse({'error': 'Invalid filters'}, status=400)
+    # if filterset.is_valid():
+    #     filtered_queryset = filterset.qs
+    #     data = [
+    #         {
+    #             'id': event.id,
+    #             'title': event.title,
+    #             'location': event.location,
+    #             'status': event.status,
+    #             'category': event.category,
+    #         }
+    #         for event in filtered_queryset
+    #     ]
+    #     return JsonResponse(data, safe=False)
+    # else:
+    #     return JsonResponse({'error': 'Invalid filters'}, status=400)
+    return render(request, 'event_list.html', {'filter': filterset})
 
 
 def get_started_view(request):

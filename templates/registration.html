@@ -1,4 +1,4 @@
-{% extends "core/base.html" %}
+{% extends "base.html" %}
 {% block title %}Register{% endblock title %}
 {% block content %}
 <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
@@ -20,8 +20,12 @@
           <input type="text" class="form-control" id="mobile_number" name="mobile_number" required>
         </div>
         <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" name="password" required>
+          <label for="password1" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password1" name="password1" required>
+        </div>
+        <div class="mb-3">
+          <label for="password2" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password2" name="password2" required>
         </div>
         <button type="submit" class="btn btn-primary w-100">Register</button>
       </form>

@@ -4,50 +4,19 @@
     <!-- list of events -->
     <div class="row">
       {% for event in events %}
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 fade-in my-card">
-          {% if event.image %}
-          <img
-            src="{{ event.image.url }}"
-            class="card-img-top"
-            alt="{{ event.title }}"
-          />
-          {% endif %}
-          <div class="card-body">
-            <div class="d-flex justify-content-between card-header">
-              <h5 class="card-title my-card-title">{{ event.title }}</h5>
-              <span>{{event.category}}</span>
-            </div>
-            <div class="d-flex justify-content-between">
-              <div class="d-flex gap-1 ">
-                <i class="bi bi-calendar-event" style="color:#6B7280;" 13 ></i>
-                <p class="card-text" style="color:#6B7280;">{{ event.date }}</p>
-              </div>
-              <div class="d-flex gap-1">
-                <i class="bi bi-geo-alt-fill" style="color:#6B7280;"></i>
-                <p class="card-text" style="color:#6B7280;">
-                   {{ event.location }}
-                </p>
-              </div>
-              <div class="d-flex gap-1">
-                <i class="bi bi-person-fill" style="color:#6B7280;"></i>
-                <p class="card-text" style="color:#6B7280;">
-                   {{ event.organizer }}
-                </p>
-              </div>
-            </div>
-            <hr>
-            <p class="event-description"> {{ event.brief }}</p>
-            
-            
-            <div class="d-grid gap-2">
-              <a href="{% url 'view_event' event.pk %}" class="btn btn-primary"
-              >View Details</a
-            >
-            </div>
-          </div>
-        </div>
-      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Title</th>
+          </tr>
+          
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{event.title}}</td>
+          </tr>
+        </tbody>
+      </table>
       {% empty %}
       <p class="text-muted">No events found.</p>
       {% endfor %}
