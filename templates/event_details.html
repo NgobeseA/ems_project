@@ -5,6 +5,31 @@
   <div class="event-container event-image">
     <div class="container text-container">
       <h1>{{event.title}}</h1>
+      {% if request.user == event.organizer %}
+      <div class="d-flex gap-2">
+        <a href="{% url 'edit_event' event.pk %}" class="button">Edit Event</a>
+        <button class="button" style="background-color: red; color: #fff;" data-bs-toggle="modal" data-bs-target="#deleteEvent">Detele</button>
+      </div>
+      
+      {% endif %}
+      <!-- Modal -->
+<div class="modal fade modal-dialog modal-dialog-centered" id="deleteEvent" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">{{event.title}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        You are about to delete {{event.title}}, Are you sure about that?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Cancel</button>
+        <button type="button" class="btn btn-danger">Yes, Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
     </div>
   </div>
   <div class="container main-content">
@@ -86,6 +111,8 @@
     </div>
     <!-- end list of events -->
   </div>
+
+  
 </section>
 
       </div>
@@ -227,6 +254,8 @@
   </div>
   </div>
 </section>
+
+
 
 <script>
         function updateCountdown() {

@@ -1,0 +1,43 @@
+<footer class="bg-dark text-light pt-4 mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- Column 1: System Name -->
+            <div class="col-md-4 mb-3">
+                <h5 class="fw-bold">Event Management System</h5>
+                <p class="small">A powerful platform to manage and explore events seamlessly.</p>
+            </div>
+
+            <!-- Column 2: Contact Details -->
+            <div class="col-md-4 mb-3">
+                <h5 class="fw-bold">Contact Us</h5>
+                <ul class="list-unstyled small">
+                    <li>Email: support@ems.co.za</li>
+                    <li>Phone: +27 11 123 4567</li>
+                    <li>Address: 123 Main Street, Johannesburg, South Africa</li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Navbar Links -->
+            <div class="col-md-4 mb-3">
+                <h5 class="fw-bold">Quick Links</h5>
+                <ul class="nav flex-column small">
+                    <li class="nav-item"><a class="nav-link text-light p-0" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link text-light p-0" href="#">Events</a></li>
+                    <li class="nav-item"><a class="nav-link text-light p-0" href="#">Gallery</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Bottom row -->
+        <div class="row border-top border-secondary mt-3 pt-3">
+            <div class="col text-center small">
+                &copy; <span id="year"></span> My Event Management System. All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JS to auto-update year -->
+<script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+</script>

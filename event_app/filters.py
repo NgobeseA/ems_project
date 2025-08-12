@@ -10,3 +10,11 @@ class EventFilter(django_filters.FilterSet):
     class Meta:
         model = Event
         fields = ['title', 'location', 'status', 'category']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.filters.items():
+            field.field.widget.attrs.update({
+                'class': 'form-control',   # Bootstrap form styling
+                'placeholder': f'Search {field_name.capitalize()}'
+            })
